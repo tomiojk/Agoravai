@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para você, meu amor 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose:    #c0406b;
+      --blush:   #e8768f;
+      --petal:   #f7d6df;
+      --cream:   #fdf4f0;
+      --deep:    #1a0a10;
+      --muted:   #7a4a58;
+      --gold:    #c9935a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ───────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(160deg, #1a0a10 0%, #3d1528 50%, #6b2040 100%);
+      overflow: hidden;
+      padding: 60px 24px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(192,64,107,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 80% 20%, rgba(201,147,90,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      line-height: 1.05;
+      color: #fff;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 1s 0.6s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--blush);
+    }
+
+    .hero-nickname {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--petal);
+      margin-top: 16px;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      margin: 36px auto;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+    }
+
+    .hero-spotify {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 1s 1.5s forwards;
+    }
+
+    .hero-spotify iframe {
+      display: block;
+      width: 100%;
+      border-radius: 16px;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.35);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s 2s forwards;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+      animation: pulse 2s infinite;
+    }
+
+    /* ── GALLERY ─────────────────────────────────── */
+    .gallery-section {
+      background: var(--deep);
+      padding: 80px 0;
+    }
+
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .carousel-wrap {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .carousel-track {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: #0d0508;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .carousel-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.6);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .carousel-btn:hover {
+      border-color: var(--blush);
+      color: var(--blush);
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: var(--blush);
+      width: 20px;
+      border-radius: 2px;
+    }
+
+    /* ── LETTER ──────────────────────────────────── */
+    .letter-section {
+      background: var(--cream);
+      padding: 100px 24px;
+    }
+
+    .letter-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .letter-inner .section-label {
+      text-align: left;
+      color: var(--rose);
+      margin-bottom: 48px;
+    }
+
+    .letter-p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+      line-height: 1.85;
+      color: #3d1528;
+      font-weight: 400;
+      margin-bottom: 32px;
+    }
+
+    .letter-p:last-child { margin-bottom: 0; }
+
+    /* ── ENVELOPE ────────────────────────────────── */
+    .envelope-section {
+      background: linear-gradient(160deg, #3d1528 0%, #1a0a10 100%);
+      padding: 100px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .envelope-section .section-label {
+      color: var(--gold);
+      margin-bottom: 56px;
+    }
+
+    .envelope-wrap {
+      perspective: 1000px;
+    }
+
+    .envelope {
+      width: 320px;
+      height: 210px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .env-body {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #f9e0e8 0%, #f5c8d4 100%);
+      border-radius: 6px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    /* triangle bottom */
+    .env-body::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: inherit;
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+      transform-origin: bottom;
+    }
+
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 55%;
+      background: linear-gradient(160deg, #e8768f 0%, #c0406b 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .envelope.open .env-flap {
+      transform: rotateX(-180deg);
+    }
+
+    /* left triangle */
+    .env-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: #f2b8c6;
+      clip-path: polygon(0 0, 0 100%, 100% 50%);
+      border-radius: 6px 0 0 6px;
+    }
+
+    /* right triangle */
+    .env-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: #f2b8c6;
+      clip-path: polygon(100% 0, 100% 100%, 0 50%);
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* heart seal */
+    .env-seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.8rem;
+      z-index: 2;
+      transition: opacity 0.4s;
+    }
+
+    .envelope.open .env-seal { opacity: 0; }
+
+    .env-message {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 28px;
+      opacity: 0;
+      transition: opacity 0.6s 0.5s;
+      z-index: 3;
+    }
+
+    .envelope.open .env-message { opacity: 1; }
+
+    .env-message p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #3d1528;
+      text-align: center;
+    }
+
+    .open-btn {
+      margin-top: 36px;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .open-btn:hover {
+      border-color: var(--blush);
+      color: var(--blush);
+    }
+
+    /* ── FLOATING HEARTS ─────────────────────────── */
+    .hearts-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .heart-particle {
+      position: absolute;
+      animation: floatHeart linear forwards;
+      opacity: 0;
+    }
+
+    @keyframes floatHeart {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-110vh) rotate(30deg); opacity: 0; }
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--deep);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts-layer" id="heartsLayer"></div>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <p class="hero-eyebrow">uma mensagem especial</p>
+    <h1 class="hero-title">Para você,<br><em>meu amor</em></h1>
+    <p class="hero-nickname">Princesa 💖</p>
+    <div class="hero-divider"></div>
+    <div class="hero-spotify">
+      <iframe src="https://open.spotify.com/embed/track/1JSTJqkT5qHq8MDJnJbRE1?si=XNIeS_KuRZiJK9tfeqz6yg"
+        height="152" frameBorder="0" allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
+    </div>
+    <div class="scroll-hint">rolar</div>
+  </section>
+
+  <!-- ── GALLERY ── -->
+  <section class="gallery-section">
+    <p class="section-label reveal">nossas memórias</p>
+    <div class="carousel-wrap reveal">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><img src="imagens/1.jpeg" alt="Foto 1"></div>
+        <div class="carousel-slide"><img src="imagens/2.jpeg" alt="Foto 2"></div>
+        <div class="carousel-slide"><img src="imagens/3.jpeg" alt="Foto 3"></div>
+        <div class="carousel-slide"><img src="imagens/4.png"  alt="Foto 4"></div>
+        <div class="carousel-slide"><img src="imagens/5.png"  alt="Foto 5"></div>
+        <div class="carousel-slide"><img src="imagens/6.png"  alt="Foto 6"></div>
+        <div class="carousel-slide"><img src="imagens/7.png"  alt="Foto 7"></div>
+      </div>
+      <nav class="carousel-nav">
+        <button class="carousel-btn" id="prevBtn" aria-label="Anterior">&#8592;</button>
+        <div class="carousel-dots" id="dots"></div>
+        <button class="carousel-btn" id="nextBtn" aria-label="Próxima">&#8594;</button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ── LETTER ── -->
+  <section class="letter-section">
+    <div class="letter-inner">
+      <p class="section-label reveal">do fundo do meu coração</p>
+      <p class="letter-p reveal">Estamos namorando há 1 mês, mas são 3 meses desde que começamos a ficar. Tudo começou com umas brincadeiras num chá de bebê e uns tirinhos de airsoft kkk — isso foi o suficiente pra eu ver em você o que não via há 2 anos desde que nos conhecemos. Afinal, foi o maior tempo que passamos juntos pela primeira vez hehe.</p>
+      <p class="letter-p reveal">Não foi fácil, eu já estava decidido a viver sozinho para conquistar minhas coisas — mas graças a Deus, Ele colocou você em minha vida. Falei pra mim mesmo: <em>ela vale a pena!</em> Ainda bem que me ouvi, pois você foi a melhor coisa que me aconteceu em 2025. Na verdade, na minha vida toda. ❤️</p>
+      <p class="letter-p reveal">Eu te amo meu amor, fico mais do que feliz de estar passando meu primeiro Dia dos Namorados com você. 😍</p>
+    </div>
+  </section>
+
+  <!-- ── ENVELOPE ── -->
+  <section class="envelope-section">
+    <p class="section-label reveal">tem uma carta pra você</p>
+    <div class="envelope-wrap reveal">
+      <div class="envelope" id="envelope">
+        <div class="env-body"></div>
+        <div class="env-left"></div>
+        <div class="env-right"></div>
+        <div class="env-flap"></div>
+        <div class="env-seal">💌</div>
+        <div class="env-message">
+          <p>Princesa, só queria te lembrar o quanto você é especial pra mim. Cada dia ao seu lado é um presente.<br><br>Te amo! ❤️</p>
+        </div>
+      </div>
+    </div>
+    <button class="open-btn" onclick="toggleEnvelope()">Abrir carta 💌</button>
+  </section>
+
+  <footer>
+    <p>feito com todo o amor do mundo 💖</p>
+  </footer>
+
+  <script>
+    /* ── CAROUSEL ── */
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dotsWrap = document.getElementById('dots');
+    let current = 0;
+
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+    });
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dotsWrap.children[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dotsWrap.children[current].classList.add('active');
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+    // auto-advance
+    setInterval(() => goTo(current + 1), 4000);
+
+    /* ── ENVELOPE ── */
+    function toggleEnvelope() {
+      document.getElementById('envelope').classList.toggle('open');
+    }
+
+    /* ── SCROLL REVEAL ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ── FLOATING HEARTS ── */
+    const layer = document.getElementById('heartsLayer');
+    const symbols = ['❤️','💖','💘','🌹','✨','💕'];
+
+    function spawnHeart() {
+      const el = document.createElement('span');
+      el.className = 'heart-particle';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.bottom = '-2rem';
+      el.style.fontSize = (0.8 + Math.random() * 1.4) + 'rem';
+      const dur = 6 + Math.random() * 6;
+      el.style.animationDuration = dur + 's';
+      layer.appendChild(el);
+      setTimeout(() => el.remove(), dur * 1000);
+    }
+
+    setInterval(spawnHeart, 600);
+  </script>
+</body>
+</html>
